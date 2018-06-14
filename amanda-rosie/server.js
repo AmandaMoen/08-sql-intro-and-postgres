@@ -93,7 +93,7 @@ app.put('/articles/:id', (request, response) => {
 
 app.delete('/articles/:id', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to this route? Be sure to take into account how the request was initiated, how it was handled, and how the response was delivered. Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
-  // This corresponds to 3, query, and 4, results. It is interacting with Article.prototype.deleteRecord in article.js. This is the D, destroy!!, of CRUD.
+  // This corresponds to 3, query, and 4, results. This part refers to the deletion of an article, by using the value(id) that it is held within. It is interacting with Article.prototype.deleteRecord in article.js. This is the D, destroy!!, of CRUD.
 
   let SQL = `DELETE FROM articles WHERE article_id=$1;`;
   let values = [request.params.id];
@@ -109,7 +109,7 @@ app.delete('/articles/:id', (request, response) => {
 
 app.delete('/articles', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to this route? Be sure to take into account how the request was initiated, how it was handled, and how the response was delivered. Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
-  // PUT YOUR RESPONSE HERE
+  // This corresponds to 3, query, and 4, results. This part refers to the deletion of all articles. It is interacting with Article.truncateTable in article.js. This is the D, destroy!!, of CRUD, and to be used with extreme caution.
 
   let SQL = '';
   client.query(SQL)
