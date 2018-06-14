@@ -1,8 +1,8 @@
 'use strict';
 
 const fs = require('fs');
-const express = require('express');
 const pg = require('pg');
+const express = require('express');
 const PORT = process.env.PORT || 3000;
 const app = express();
 
@@ -17,7 +17,7 @@ const app = express();
 
 // DONE-TODO: Pass the conString into the Client constructor so that the new database interface instance has the information it needs
 const client = new pg.Client();
-const conString = 'postgres://AMANDA:1975@localhost:5432:kilovolt';
+const conString = 'postgres://amanda:1975@localhost:5432/kilovolt';
 
 // DONE-REVIEW: Use the client object to connect to our DB.
 client.connect();
