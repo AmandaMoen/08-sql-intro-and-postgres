@@ -13,13 +13,12 @@ Need to start up a postgres server, connect to the database, and open the browse
 HTML, CSS, JavaScript, jQuery, node.js, PostgreSQL package 'pg', etc.
 
 ## Change Log
-<!-- Use this are to document the iterative changes made to your application as each feature is successfully implemented. Use time stamps. Here's an examples:
-
-01-01-2001 4:59pm - Application now has a fully-functional express server, with GET and POST routes for the book resource.
+06-14-2018 - Rosie and Amanda completed the first portion of this lab.
+07-07-2018 6:11pm - Dropped the articles table and the authors table that were created during lab 9.  Now I can successfully complete the CRUD testing.
+07-07-2018 7:55pm - Completed the lab, A-C-P, merged, and started working on README.md
 
 ## Credits and Collaborations
-<!-- Give credit (and a link) to other people or resources that helped you build this application. -->
--->
+John Cokos
 
 
 #### Single-line Summary
