@@ -12,12 +12,12 @@ const app = express();
 // Your OS may require that your conString (connection string, containing protocol and port, etc.) is composed of additional information including user and password.
 
 // Windows/Linux users uncomment the following line
-// const conString = 'postgres://amanda:1975@localhost:5432/kilovolt';
 // Mac: if on MAC, uncomment the following line
-const conString = 'postgres://localhost:5432/kilovolt';
+// const conString = 'postgres://localhost:5432/kilovolt';
 
 // DONE-TODO: Pass the conString into the Client constructor so that the new database interface instance has the information it needs
-const client = new pg.Client();
+const conString = 'postgres://amanda:1234@localhost:5432/kilovolt';
+const client = new pg.Client(conString);// <-- Passing conString into Client constructor!
 
 // DONE-REVIEW: Use the client object to connect to our DB.
 client.connect();
@@ -40,7 +40,7 @@ app.get('/new-article', (request, response) => {
 app.get('/articles', (request, response) => {
   // COMMENT: What number(s) of the full-stack-diagram.png image correspond to this route? Be sure to take into account how the request was initiated, how it was handled, and how the response was delivered. Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
   // 1, the client selects something on the page; 2, a request is sent to the server; 3, the server queries the database; 4, the database returns the results of the query to the server; and 5, the server delivers the response to the users browser. The method of article.js that's interacting with this piece of server.js is function(results). It's the R of CRUD, Read, that's being enacted/managed by this piece of code.
-  client.query('')
+  client.query('SELECT * FROM articles')
     .then(function(result) {
       response.send(result.rows);
     })
@@ -79,14 +79,19 @@ app.put('/articles/:id', (request, response) => {
   // DONE-COMMENT: What number(s) of the full-stack-diagram.png image correspond to this route? Be sure to take into account how the request was initiated, how it was handled, and how the response was delivered. Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
   // This corresponds to 3, query, and 4, results, in the full-stack image. It is interacting with Article.prototype.updateRecord in article.js. This is the U, update, of CRUD.
 
-  let SQL = 'title= $1, author= $2, authorUrl = $3, category = $4, publishedOn = $5, body =$5';
+  let SQL = `
+  UPDATE articles
+  SET title=$1, author=$2, "authorUrl"=$3, category=$4, "publishedOn"=$5, body=$6
+  WHERE article_id=$7;
+  `;
   let values = [
     request.body.title,
     request.body.author,
     request.body.authorUrl,
     request.body.category,
     request.body.publishedOn,
-    request.body.body
+    request.body.body,
+    request.params.id
   ];
 
   client.query(SQL, values)
@@ -118,7 +123,7 @@ app.delete('/articles', (request, response) => {
   // DONE-COMMENT: What number(s) of the full-stack-diagram.png image correspond to this route? Be sure to take into account how the request was initiated, how it was handled, and how the response was delivered. Which method of article.js is interacting with this particular piece of `server.js`? What part of CRUD is being enacted/managed by this particular piece of code?
   // This corresponds to 3, query, and 4, results. This part refers to the deletion of all articles. It is interacting with Article.truncateTable in article.js. This is the D, destroy!!, of CRUD, and to be used with extreme caution.
 
-  let SQL = '';
+  let SQL = `DELETE * FROM articles;`;
   client.query(SQL)
     .then(() => {
       response.send('Delete complete')
@@ -153,7 +158,8 @@ function loadArticles() {
         fs.readFile('./public/data/hackerIpsum.json', 'utf8', (err, fd) => {
           JSON.parse(fd).forEach(ele => {
             let SQL = `
-              INSERT INTO articles(title, author, "authorUrl", category, "publishedOn", body)
+              INSERT INTO 
+              articles(title, author, "authorUrl", category, "publishedOn", body)
               VALUES ($1, $2, $3, $4, $5, $6);
             `;
             let values = [ele.title, ele.author, ele.authorUrl, ele.category, ele.publishedOn, ele.body];
