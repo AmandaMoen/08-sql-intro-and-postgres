@@ -16,10 +16,8 @@ const app = express();
 // const conString = 'postgres://localhost:5432/kilovolt';
 
 // DONE-TODO: Pass the conString into the Client constructor so that the new database interface instance has the information it needs
-
 const conString = 'postgres://amanda:1234@localhost:5432/kilovolt';
 const client = new pg.Client(conString);// <-- Passing conString into Client constructor!
-
 
 // DONE-REVIEW: Use the client object to connect to our DB.
 client.connect();
